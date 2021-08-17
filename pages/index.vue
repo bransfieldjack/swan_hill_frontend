@@ -24,11 +24,42 @@
                       <v-container>
                         <v-row no-gutters>
                           <v-col cols="12" md="5">
-                            <v-btn block outlined large rounded>Single</v-btn>
+                            <v-btn
+                              @click="addSingleTag = true"
+                              block
+                              outlined
+                              large
+                              rounded
+                              >Single</v-btn
+                            >
                           </v-col>
+
                           <v-col cols="12" md="2"></v-col>
-                          <v-col cols="12" md="5">
-                            <v-btn block outlined large rounded>Many</v-btn>
+                          <v-col cols="12" md="5" v-if="addSingleTag == true">
+                            <div>
+                              <v-text-field
+                                label="eTag ID"
+                                :rules="rules"
+                                v-model="eTagId"
+                                hide-details="auto"
+                              ></v-text-field>
+                              <br />
+                              <v-btn color="#4ACB90" @click="saveSingleTag()"
+                                >Save</v-btn
+                              >
+                            </div>
+
+                            <v-overlay :value="saving">
+                              <v-progress-circular
+                                indeterminate
+                                size="64"
+                              ></v-progress-circular>
+                            </v-overlay>
+                          </v-col>
+                          <v-col cols="12" md="5" v-if="addSingleTag == false">
+                            <v-btn block disabled outlined large rounded
+                              >Many</v-btn
+                            >
                           </v-col>
                         </v-row>
                       </v-container>
@@ -38,7 +69,11 @@
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="addTagButton = false">
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="(addTagButton = false), (addSingleTag = false)"
+                      >
                         Close
                       </v-btn>
                     </v-card-actions>
@@ -148,6 +183,13 @@
 export default {
   data() {
     return {
+      eTagId: null,
+      saving: false,
+      rules: [
+        (value) => !!value || "Required.",
+        (value) => (value && value.length >= 6) || "Min 6 characters",
+      ],
+      addSingleTag: false,
       addTagButton: false,
       tags: [
         { id: 1, name: "product1", price: 10.0 },
@@ -161,6 +203,30 @@ export default {
     };
   },
   methods: {
+    saveSingleTag: async function () {
+      this.saving = true;
+      const url = "http://localhost:5000/add/single_tag/";
+
+      // const response = await this.$http.$post(url);
+      // return await response.json();
+
+      await this.$axios
+        .post(url, {
+          ID: this.eTagId,
+        })
+        .then((response) => {
+          console.log(response);
+
+          this.saving = false;
+          this.addTagButton = false;
+          this.addSingleTag = false;
+
+          alert("eTag Added");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     fire: function () {
       window.alert("sometext");
     },
