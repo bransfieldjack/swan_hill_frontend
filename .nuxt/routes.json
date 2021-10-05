@@ -1,0 +1,23 @@
+[
+  {
+    "name": "network",
+    "path": "/network",
+    "component": "/Users/jbransfield/projects/swan_hill_frontend/eTag/BTConnector/pages/network.vue",
+    "chunkName": "pages/network",
+    "_name": "_0d684746"
+  },
+  {
+    "name": "reports",
+    "path": "/reports",
+    "component": "/Users/jbransfield/projects/swan_hill_frontend/eTag/BTConnector/pages/reports.vue",
+    "chunkName": "pages/reports",
+    "_name": "_736d0e57"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/jbransfield/projects/swan_hill_frontend/eTag/BTConnector/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_5d76f82c"
+  }
+]
